@@ -29,13 +29,19 @@ impl<'s, T> AsyncTaskPool<'s, T> {
         for rx_option in self.0.iter() {
             if let Some(rx) = rx_option {
                 if !rx.received {
+                    dbg!("not received");
                     return false;
+                }
+                else {
+                    dbg!("received");
                 }
             }
             else {
+                dbg!("rx_option is None");
                 return false;
             }
         }
+        dbg!("all finished");
         return true;
     }
 
