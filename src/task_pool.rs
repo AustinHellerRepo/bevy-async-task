@@ -18,6 +18,12 @@ pub struct AsyncTaskPool<'s, T>(
     pub(crate) &'s mut Vec<Option<AsyncReceiver<T>>>,
 );
 
+impl<'s, T> std::fmt::Debug for AsyncTaskPool<'s, T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "AsyncTaskPool {:p} (length: {})", self, self.0.len())
+    }
+}
+
 impl<'s, T> AsyncTaskPool<'s, T> {
     /// Returns whether the task pool is idle.
     pub fn is_idle(&self) -> bool {
