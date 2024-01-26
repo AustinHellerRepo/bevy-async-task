@@ -24,6 +24,21 @@ impl<'s, T> AsyncTaskPool<'s, T> {
         self.0.is_empty() || !self.0.iter().any(Option::is_some)
     }
 
+    /// Returns if empty or all tasks are finished.
+    pub fn is_all_finished(&self) -> bool {
+        for rx_option in self.0.iter() {
+            if let Some(rx) = rx_option {
+                if !rx.received {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /// Spawn an async task in the background.
     pub fn spawn(&mut self, task: impl Into<AsyncTask<T>>) {
         let task = task.into();
